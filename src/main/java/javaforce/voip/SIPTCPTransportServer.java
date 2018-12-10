@@ -87,7 +87,20 @@ public class SIPTCPTransportServer implements SIPTransport {
   }
 
   private Socket connect(InetAddress host, int port, String id) throws Exception {
-    Socket socket = new Socket(host, port);
+    boolean isSuccess=false;
+    Socket socket =null;
+    int localport=port;
+    while (!isSuccess){
+      try {
+         socket = new Socket(host,port, InetAddress.getLocalHost(),localport);
+          isSuccess=true;
+        JFLog.log("change localport "+port+" to "+localport);
+      }catch (Exception conn){
+        localport++;
+        continue;
+      }
+    }
+
     synchronized(clientsLock) {
       clients.put(id, socket);
     }

@@ -34,7 +34,7 @@ public class RTP implements STUN.Listener {
   protected long turnAllocExpires;
 
   public Object userobj;  //free to use
-  public static boolean debug = false;  //set to true and recompile to get a lot of output
+  public static boolean debug = true;  //set to true and recompile to get a lot of output
   public final static Codec CODEC_UNKNOWN = new Codec("?", -1);
   public final static Codec CODEC_G711u = new Codec("PCMU", 0);  //patent expired
   public final static Codec CODEC_GSM = new Codec("GSM", 3);  //patent expired
