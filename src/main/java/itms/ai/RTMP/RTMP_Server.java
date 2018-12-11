@@ -20,8 +20,7 @@ public class RTMP_Server  {
         SipServerEventHandler eventHandler=new SipServerEventHandler();
 
         SIPServer sipServer=new SIPServer();
-        sipServer.init(5650,eventHandler, SIP.Transport.TCP);
-
+        sipServer.init(5650,eventHandler, SIP.Transport.UDP);
 
         String reCallid="authtel10022";
         String reCallid1="authphone10011";
@@ -29,8 +28,8 @@ public class RTMP_Server  {
             char b;
             while ((b=(char)System.in.read())!='\r'){
                 if(b=='1'){
-                            sipServer.register("authtel","authtel","192.168.31.37",5677,3600,"authtel",reCallid);
-        sipServer.register("authphone","authphone","192.168.31.37",5679,3600,"authphone",reCallid1);
+                            sipServer.register("authtel","authtel","192.168.1.110",5677,3600,"authtel",reCallid);
+        sipServer.register("authphone","authphone","192.168.1.110",5679,3600,"authphone",reCallid1);
                     break;
                 }else{continue;}
             }

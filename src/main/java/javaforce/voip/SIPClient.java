@@ -549,15 +549,7 @@ public class SIPClient extends javaforce.voip.SIP implements SIPInterface, STUN.
     return true;
   }
 
-  /**
-   * Send an invite to server.<br>
-   *
-   * @param to : number to dial
-   * @param sdp : SDP (only stream types/modes/codecs are needed) (ip not needed)
-   *
-   * @return unique Call-ID (not caller id)<br>
-   */
-  public String invite(String to, SDP sdp) {
+  private CallDetails buildinviteCallDetails(String to, SDP sdp){
     caller = true;
     String callid = getcallid();
     CallDetails cd = getCallDetails(callid);  //new CallDetails
@@ -575,10 +567,23 @@ public class SIPClient extends javaforce.voip.SIP implements SIPInterface, STUN.
     cd.authsent = false;
     cd.src.extra = null;
     cd.src.epass = null;
+    return cd;
+  }
+
+  /**
+   * Send an invite to server.<br>
+   *
+   * @param to : number to dial
+   * @param sdp : SDP (only stream types/modes/codecs are needed) (ip not needed)
+   *
+   * @return unique Call-ID (not caller id)<br>
+   */
+  public String invite(String to, SDP sdp) {
+   CallDetails cd=buildinviteCallDetails(to,sdp);
     if (!issue(cd, "INVITE", true, true)) {
       return null;
     }
-    return callid;
+    return cd.callid;
   }
 
   /**
@@ -885,7 +890,7 @@ public class SIPClient extends javaforce.voip.SIP implements SIPInterface, STUN.
       } else {
         req = getRequest(msg);
         cd.uri = getURI(msg);
-        JFLog.log("callid:" + callid + "\r\nrequest=" + req);
+        JFLog.log("callid:" + callid + "\r\nrequest=" + req+",type="+type);
       }
       switch (type) {
         case -1:

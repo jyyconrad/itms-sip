@@ -15,7 +15,7 @@ public class SIPClientTest {
     public static void main(String args[]) {
         SipClientHandle clientHandle=new SipClientHandle();
         SIPClient client=new SIPClient();
-        client.init("192.168.31.37",5650,5677,clientHandle, SIP.Transport.TCP);
+        client.init("192.168.1.110",5650,5677,clientHandle, SIP.Transport.UDP);
 //        client.register("authtel","authtel","authtel","authtel");
 //        client.getSDP()
 

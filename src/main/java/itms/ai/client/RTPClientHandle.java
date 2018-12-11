@@ -15,7 +15,7 @@ import java.nio.ByteOrder;
  * Created by Administrator on 2018/12/10.
  */
 public class RTPClientHandle implements RTPInterface {
-    static final String filePath="D:\\DevelopCode\\Git\\Java\\sip-rtmp\\conf-no-admin.wav";
+    static final String filePath="D:\\temp\\pcap\\47172497166f62d0a26_in.pcm";
     g729a coder;
     FileOutputStream fos;
     public RTPClientHandle(){

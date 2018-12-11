@@ -58,6 +58,35 @@ public class SIPServer extends javaforce.voip.SIP implements SIPInterface {
     }
   }
 
+  private CallDetailsServer buildinviteCallDetails(CallDetailsServer cds,String to, SDP sdp){
+//    caller = true;
+//    String callid = getcallid();
+    CallDetailsServer cd =cds;  //new CallDetails
+    cd.dst.to =cds.src.to; //new String[]{to, to, cds.dst.host + ":" + cds.dst.port, ":"};
+    cd.dst.from = new String[]{cds.fromname, cds.user, cds.src.host + ":" + cds.src.port, ":"};
+    cd.dst.contact = "<sip:" + cds.user + "@" + cd.src.host + ":" + cds.src.port + ">";
+    cd.uri = "sip:" + cds.src.to[0] + "@" + cds.dst.host + ":" + cds.dst.port;
+    cd.dst.from = replacetag(cd.src.from, generatetag());
+    cd.dst.branch = getbranch();
+    cd.dst.o1 = 256;
+    cd.dst.o2 = 256;
+    cd.dst.sdp = sdp;
+    buildsdp(cd, cd.dst);
+    cd.dst.cseq++;
+    cd.authsent = false;
+    cd.dst.extra = null;
+    cd.dst.epass = null;
+    cd.pbxdst=cd.dst;
+    return cd;
+  }
+
+  public String reInvite(CallDetailsServer cds,String to,SDP sdp){
+    cds=buildinviteCallDetails(cds,to,sdp);
+    if (!issue(cds, "INVITE", true, true)) {
+      return null;
+    }
+    return cds.callid;
+  }
   public boolean issue(CallDetailsServer cd, String header, boolean sdp, boolean src) {
     CallDetails.SideDetails cdsd = (src ? cd.pbxsrc : cd.pbxdst);
     JFLog.log("callid:" + cd.callid + "\r\nissue command : " + cd.cmd + " from : " + cd.user + " to : " + cdsd.host + ":" + cdsd.port);

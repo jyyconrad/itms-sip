@@ -88,7 +88,7 @@ public abstract class SIP {
   /**
    * Sends a packet out on the UDP port.
    */
-  protected boolean send(InetAddress remote, int remoteport, String datastr) {
+  public boolean send(InetAddress remote, int remoteport, String datastr) {
     byte data[] = datastr.getBytes();
     return transport.send(data, 0, data.length, remote, remoteport);
   }
@@ -212,6 +212,8 @@ public abstract class SIP {
     }
     return buf.toString();
   }
+
+
 
   /**
    * Returns a flag in a To: From: field.
